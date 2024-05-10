@@ -65,6 +65,15 @@ with open('books/浦江吳氏中饋錄-MadameWu-1275.txt', 'r', encoding='utf8')
 	theseNouns = [w for w in words if w.flag == 'n']
 	nouns.extend(theseNouns)
 
+# Process 'Suiyuan shidan' (隨園食單, Recipes from the Garden of Contentment)
+with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
+    ssd = rf.read()
+    ssd = ssd[:ssd.find("About this digital edition")]
+    ssd = ssd.replace('\u3000', '')
+    theseRecipes = ssd.split('\n')
+    theseRecipes = [r for r in theseRecipes if r != '']
+
+
 
 # extract food words
 for w in nouns:
@@ -122,4 +131,4 @@ print("E")
 fig = px.scatter(df2, x="pc1", y="pc2", text="words")
 print("F")
 fig.write_html("graph.html")
-print("G")
+print("G") 
