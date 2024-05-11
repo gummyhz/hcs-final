@@ -72,7 +72,7 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     ssd = ssd.replace('\u3000', '')
     theseRecipes = ssd.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
-	
+    print("here they are")
     print(theseRecipes[:3])
 
 
@@ -103,7 +103,10 @@ df = pd.DataFrame(relations, columns=['from', 'to', 'recipes'])
 #G.add_nodes_from(foods)
 #G.add_weighted_edges_from(edges)
 G=nx.from_pandas_edgelist(df, 'from', 'to', create_using=nx.Graph() )
-nx.draw(G, with_labels=True, node_size=1000, node_color="skyblue", font_size=12,  width=df['recipes'])
+pos = nx.spring_layout(G, k=0.15, iterations=20)
+# https://stackoverflow.com/questions/14283341/how-to-increase-node-spacing-for-networkx-spring-layout
+
+nx.draw(G, pos, with_labels=True, node_size=800, node_color="skyblue", font_size=10,  width=df['recipes'])
 plt.show()
 
 refined_texts = []
@@ -130,7 +133,7 @@ print("D")
 data = {"words":words, "pc1":my_pca[:,0], 'pc2':my_pca[:,1]}
 df2 = pd.DataFrame(data)
 print("E")
-fig = px.scatter(df2, x="pc1", y="pc2", text="words")
+fig = px.scatter(df2, x="pc1", y="pc2", text="words", opacity=0)
 print("F")
 fig.write_html("graph.html")
 print("G") 
