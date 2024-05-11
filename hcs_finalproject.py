@@ -42,9 +42,9 @@ def is_cjk(char):
             return True
     return False
 
-proteins = ['魚', '牛', '羊', '雞', '豬', '豆', '肉']
+proteins = ['魚', '牛', '羊', '雞', '豬', '豆', '肉', '鴨']
 breads = ['面', '餅', '米', '飯']
-etc = ['醤', '酱', '醬', '脯', '鮓', '制', '蔬', '甜', '食', '鹹', '苦', '酸', '辣']
+etc = ['醤', '酱', '醬', '脯', '鮓', '制', '蔬', '甜', '食', '鹹', '苦', '酸', '辣', '湯', '燕', '水', '參', '汁', '芥', '蘑']
 
 nouns = []
 foods = []
@@ -76,8 +76,19 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     words = pseg.cut(ssd)
     theseNouns = [w for w in words if w.flag == 'n']
     nouns.extend(theseNouns)
+	
+# hcs-final\books\山家清供.txt
+with open('books/山家清供.txt', 'r', encoding='utf8') as rf:
+    ssd = rf.read()
+    ssd = ssd[:ssd.find("About this digital edition")]
+    ssd = ssd.replace('\u3000', '')
+    theseRecipes = ssd.split('\n')
+    theseRecipes = [r for r in theseRecipes if r != '']
+    print(theseRecipes[:3])
 
-
+    words = pseg.cut(ssd)
+    theseNouns = [w for w in words if w.flag == 'n']
+    nouns.extend(theseNouns)
 
 # extract food words
 for w in nouns:
