@@ -72,6 +72,8 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     ssd = ssd.replace('\u3000', '')
     theseRecipes = ssd.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
+	
+    print(theseRecipes[:3])
 
 
 
