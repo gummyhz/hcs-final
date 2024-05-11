@@ -14,6 +14,7 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=lo
 plt.rcParams['font.sans-serif'] = ['SimHei']
 # https://alvinntnu.github.io/python-notes/corpus/jieba.html
 
+# cjk detection code from stack overflow
 # https://stackoverflow.com/questions/34587346/python-check-if-a-string-contains-chinese-character 
 cjk_ranges = [
         ( 0x4E00,  0x62FF),
@@ -34,7 +35,6 @@ cjk_ranges = [
         (0x2CEB0, 0x2EBEF),
         (0x2F800, 0x2FA1F)
     ]
-
 def is_cjk(char):
     char = ord(char)
     for bottom, top in cjk_ranges:
@@ -51,7 +51,7 @@ foods = []
 recipes = []
 
 # Process the 'Pujiang Wushi Zhongkuilu' (浦江吳氏中饋錄, Song Dynasty Pujiang Woman of the Wu Surname Records on Household Essentials)
-with open('books/浦江吳氏中饋錄-MadameWu-1275.txt', 'r', encoding='utf8') as rf:
+with open('books/浦江吳氏中饋錄.txt', 'r', encoding='utf8') as rf:
 	mwu = rf.read()
 	mwu = mwu[:mwu.find("URN:")]
 
@@ -70,6 +70,8 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     ssd = rf.read()
     ssd = ssd[:ssd.find("About this digital edition")]
     ssd = ssd.replace('\u3000', '')
+	
+	# recipes and titles are separated by newlines
     theseRecipes = ssd.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
 	
@@ -77,18 +79,21 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     theseNouns = [w for w in words if w.flag == 'n']
     nouns.extend(theseNouns)
 	
-# hcs-final\books\山家清供.txt
+# Process 'Shan Jia Qing Gong' (山家淸供, The Simple Foods of the Mountain Folk)
 with open('books/山家清供.txt', 'r', encoding='utf8') as rf:
-    ssd = rf.read()
-    ssd = ssd[:ssd.find("About this digital edition")]
-    ssd = ssd.replace('\u3000', '')
-    theseRecipes = ssd.split('\n')
+    sjqg = rf.read()
+    sjqg = sjqg[:sjqg.find("About this digital edition")]
+    sjqg = sjqg.replace('\u3000', '')
+	
+	# recipes and titles are separated by newlines
+    theseRecipes = sjqg.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
     print(theseRecipes[:3])
 
     words = pseg.cut(ssd)
     theseNouns = [w for w in words if w.flag == 'n']
     nouns.extend(theseNouns)
+
 
 # extract food words
 for w in nouns:
@@ -98,55 +103,56 @@ for w in nouns:
 			break
 foods = set(foods)
 
+
 # create edges between foods
 relations = [[f1, f2, 0] for f1 in foods for f2 in foods if (
 	(f1 != f2 and not (len(f1)==1 and f1 in f2)) and not (len(f2)==1 and f2 in f1))]
-
 for p in relations:
 	for r in recipes:
 		if (p[0] in r and p[1] in r):
 			p[2] += 1
-
 relations = [r for r in relations if r[2]!=0]
-edges = [tuple(row) for row in relations]
-
 df = pd.DataFrame(relations, columns=['from', 'to', 'recipes'])
+
+
+
+
+# Create overall network graph
+# for subgraphs of just one food, I commented out the lines adding other books' nouns to the noun array
 
 #G = nx.Graph()
 #G.add_nodes_from(foods)
+#edges = [tuple(row) for row in relations]
 #G.add_weighted_edges_from(edges)
-G=nx.from_pandas_edgelist(df, 'from', 'to', create_using=nx.Graph() )
+
+G=nx.from_pandas_edgelist( df, 'from', 'to', create_using=nx.Graph() )
+
 pos = nx.spring_layout(G, k=0.15, iterations=20)
 # https://stackoverflow.com/questions/14283341/how-to-increase-node-spacing-for-networkx-spring-layout
 
 nx.draw(G, pos, with_labels=True, node_size=800, node_color="skyblue", font_size=10,  width=df['recipes'])
 plt.show()
 
+
+# Make PCA of texts
 refined_texts = []
-print(recipes[0])
-print(recipes[1])
 for recipe in recipes[1::2]:
 	refined = [char for char in recipe if is_cjk(char)]
 	refined_texts.append(refined)
-print(refined_texts[0])	
 
+vec_model = gensim.models.Word2Vec(sentences=refined_texts, vector_size=300, window=5, sg=0)
 
-vec_model = gensim.models.Word2Vec(sentences=refined_texts, vector_size=100, window=5, sg=0)
 words = []
 vecs = []
-print("A")
 for word in vec_model.wv.index_to_key:
 	words.append(word)
 	vecs.append(vec_model.wv[word])
-print("B")
+
 pca = PCA()
-print("C")
 my_pca = pca.fit_transform(vecs)
-print("D")
+
 data = {"words":words, "pc1":my_pca[:,0], 'pc2':my_pca[:,1]}
 df2 = pd.DataFrame(data)
-print("E")
+
 fig = px.scatter(df2, x="pc1", y="pc2", text="words", opacity=0)
-print("F")
 fig.write_html("graph.html")
-print("G") 
