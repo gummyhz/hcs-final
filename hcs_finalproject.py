@@ -72,8 +72,10 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     ssd = ssd.replace('\u3000', '')
     theseRecipes = ssd.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
-    print("here they are")
-    print(theseRecipes[:3])
+	
+    words = pseg.cut(ssd)
+    theseNouns = [w for w in words if w.flag == 'n']
+    nouns.extend(theseNouns)
 
 
 
