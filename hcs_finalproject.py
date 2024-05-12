@@ -70,11 +70,12 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     ssd = rf.read()
     ssd = ssd[:ssd.find("About this digital edition")]
     ssd = ssd.replace('\u3000', '')
-	
-	# recipes and titles are separated by newlines
+
+    # recipes and titles are separated by newlines
     theseRecipes = ssd.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
-	
+    recipes.extend(theseRecipes)
+
     words = pseg.cut(ssd)
     theseNouns = [w for w in words if w.flag == 'n']
     nouns.extend(theseNouns)
@@ -84,10 +85,11 @@ with open('books/山家清供.txt', 'r', encoding='utf8') as rf:
     sjqg = rf.read()
     sjqg = sjqg[:sjqg.find("About this digital edition")]
     sjqg = sjqg.replace('\u3000', '')
-	
-	# recipes and titles are separated by newlines
+
+    # recipes and titles are separated by newlines
     theseRecipes = sjqg.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
+    recipes.extend(theseRecipes)
     print(theseRecipes[:3])
 
     words = pseg.cut(ssd)
@@ -113,8 +115,6 @@ for p in relations:
 			p[2] += 1
 relations = [r for r in relations if r[2]!=0]
 df = pd.DataFrame(relations, columns=['from', 'to', 'recipes'])
-
-
 
 
 # Create overall network graph

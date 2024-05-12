@@ -17,21 +17,33 @@
         <div class="networks">
             <h2>Ingredient Networks</h2>
             <p>I mapped networks of ingredients from the following cookbooks:
-                <br><div style="font-weight:bold">浦江吳氏中饋錄</div> ('Pujiang Wushi Zhongkuilu', Song Dynasty Pujiang Woman of the Wu Surname Records on Household Essentials) SO MUCH INFO YESS GET THAT BACKGROUND
-                <br><div style="font-weight:bold">隨園食單</div> ('Suiyuan shidan', Recipes from the Garden of Contentment) MORE INFO YAP YAP YAP
+                <br><div style="font-weight:bold">浦江吳氏中饋錄</div> ('Pujiang Wushi Zhongkuilu', Song Dynasty Pujiang Woman of the Wu Surname Records on Household Essentials) [<a href="https://ctext.org/wiki.pl?if=en&res=604326">source</a>] A late Song dynasty or early Yuan dynasty (late 13th century) cookbook written by an anonymous Madame Wu from the Pujiang region.
+                <br><div style="font-weight:bold">隨園食單</div> ('Suiyuan shidan', Recipes from the Garden of Contentment) [<a href="https://zh.wikisource.org/wiki/%E9%9A%A8%E5%9C%92%E9%A3%9F%E5%96%AE">source</a>] A Qing dynasty cookbook written by 袁枚 (Yuan Mei, 1716-1798) and published in 1792.
+                <br><div style="font-weight:bold">山家淸供</div>  ('Shan Jia Qing Gong', The Simple Foods of the Mountain Folk) [<a href="https://zh.wikisource.org/wiki/%E5%B1%B1%E5%AE%B6%E6%B8%85%E4%BE%9B">source</a>] A Song dynasty cookbook of food and drinks of people in the mountains, written in the 13th century by 林洪 (Lin Hong), as well as possibly
+                陶宗儀 (active 1360-1368), 陶珽, and Zhao Xigu (Wikipedia and Harvard Chinese Rare books conflict on these additional authors).
+                <br><br> Background info the individual sources, as well as: 
+                <br><a href="https://en.wikipedia.org/wiki/List_of_sources_of_Chinese_culinary_history">https://en.wikipedia.org/wiki/List_of_sources_of_Chinese_culinary_history (All)</a>
+                <br><a href="https://curiosity.lib.harvard.edu/chinese-rare-books/catalog/49-990067413460203941">https://curiosity.lib.harvard.edu/chinese-rare-books/catalog/49-990067413460203941 (山家淸供)</a>
+                <br><a href="https://en.wikipedia.org/wiki/Recipes_from_the_Garden_of_Contentment">https://en.wikipedia.org/wiki/Recipes_from_the_Garden_of_Contentment (隨園食單)</a>
+                <br><a href="https://en.wikipedia.org/wiki/Wushi_Zhongkuilu">https://en.wikipedia.org/wiki/Wushi_Zhongkuilu (浦江吳氏中饋錄)</a>
                 <br><br>
                 I preprocessed the texts by using regex and python's string methods to extract titles and recipes for each text (stored in an array such as ['title1', 'recipe1', 'title2', 'recipe2'...]).
                 <br><br>
-                I used jieba to extract ingredients by tokenizing the texts, then taking only the nouns, then taking only nouns which contained characters from a list of words I knew to be food related. There is probably a better way to do this. My method leads to me not detecting a lot a foods because I am mostly illiterate in Chinese. (I probably should have used an English text. I'm not sure why I keep picking texts I can't read.)
+                I used jieba to extract ingredients by tokenizing the texts, then taking only the nouns, then taking only nouns which contained characters from a list of words I knew to be food related. There is probably a better way to do this. My method leads to me not detecting a lot of foods because I am mostly illiterate in Chinese. (I probably should have used an English text. I'm not sure why I keep picking texts I can't read.)
                 <br><br>
                 For the edges and edge weights, I created an array: [food 1 (from), food 2 (to), number of recipes they appear in together (edge weight)] by iterating over the list of food words I extracted to make an array with all 0 edge weights. Then, I iteracted over the relations and the recipes I extracted and added +1 to the edge weight if two foods were in a recipe together.
             </p>
             <h3>浦江吳氏中饋錄 Ingredient Network</h3>
-            <img alt="浦江吳氏中饋錄 Ingredient Network" src="">
+            <img alt="浦江吳氏中饋錄 Ingredient Network" src="浦江吳氏中饋錄-network.png">
+            <img alt="浦江吳氏中饋錄 Ingredient Network Zoomed" src="浦江吳氏中饋錄-network-zoomed.png">
             <h3>隨園食單 Ingredient Network</h3>
-            <img alt="隨園食單 Ingredient Network" src="">
+            <img alt="隨園食單 Ingredient Network" src="隨園食單-network.png">
+            <img alt="隨園食單 Ingredient Network Zoomed" src="隨園食單-network-zoomed.png">
+            <h3>山家淸供 Ingredient Network</h3>
+            <img alt="山家淸供 Ingredient Network" src="山家淸供-network.png">
             <h3>Overall Ingredient Network</h3>
-            <img alt="Overall Ingredient Network" src="">
+            <img alt="Overall Ingredient Network" src="overall-network.png">
+            <img alt="Overall Ingredient Network Zoomed" src="overall-network-zoomed.png">
         </div>
     </div>
     <div>                        
