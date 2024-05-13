@@ -4,6 +4,7 @@ import numpy as np
 import jieba.posseg as pseg
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import gensim
 import plotly.express as px
 from sklearn.decomposition import PCA
@@ -60,6 +61,10 @@ with open('books/浦江吳氏中饋錄.txt', 'r', encoding='utf8') as rf:
 	theseRecipes = re.split(titles, mwu)
 	theseRecipes = theseRecipes[1:]
 	recipes.extend(theseRecipes)
+	print("FIRST 3")
+	print(recipes[:3])
+	print("LAST 3")
+	print(recipes[-3:])
 
 	words = pseg.cut(mwu)
 	theseNouns = [w for w in words if w.flag == 'n']
@@ -74,7 +79,11 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     # recipes and titles are separated by newlines
     theseRecipes = ssd.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
-    recipes.extend(theseRecipes)
+    #recipes.extend(theseRecipes)
+    print("FIRST 3")
+    print(recipes[:3])
+    print("LAST 3")
+    print(recipes[-3:])
 
     words = pseg.cut(ssd)
     theseNouns = [w for w in words if w.flag == 'n']
@@ -83,14 +92,17 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
 # Process 'Shan Jia Qing Gong' (山家淸供, The Simple Foods of the Mountain Folk)
 with open('books/山家清供.txt', 'r', encoding='utf8') as rf:
     sjqg = rf.read()
-    sjqg = sjqg[:sjqg.find("About this digital edition")]
+    #sjqg = sjqg[:sjqg.find("About this digital edition")]
     sjqg = sjqg.replace('\u3000', '')
 
     # recipes and titles are separated by newlines
     theseRecipes = sjqg.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
-    recipes.extend(theseRecipes)
-    print(theseRecipes[:3])
+    #recipes.extend(theseRecipes)
+    print("FIRST 3")
+    print(recipes[:3])
+    print("LAST 3")
+    print(recipes[-3:])
 
     words = pseg.cut(ssd)
     theseNouns = [w for w in words if w.flag == 'n']
@@ -116,7 +128,6 @@ for p in relations:
 relations = [r for r in relations if r[2]!=0]
 df = pd.DataFrame(relations, columns=['from', 'to', 'recipes'])
 
-
 # Create overall network graph
 # for subgraphs of just one food, I commented out the lines adding other books' nouns to the noun array
 
@@ -126,11 +137,15 @@ df = pd.DataFrame(relations, columns=['from', 'to', 'recipes'])
 #G.add_weighted_edges_from(edges)
 
 G=nx.from_pandas_edgelist( df, 'from', 'to', create_using=nx.Graph() )
-
 pos = nx.spring_layout(G, k=0.15, iterations=20)
 # https://stackoverflow.com/questions/14283341/how-to-increase-node-spacing-for-networkx-spring-layout
-
-nx.draw(G, pos, with_labels=True, node_size=800, node_color="skyblue", font_size=10,  width=df['recipes'])
+degrees = G.degree()
+nodes = G.nodes()
+n_color = np.asarray([degrees[n] for n in nodes])
+n_color = np.log(n_color)
+print(n_color)
+# https://stackoverflow.com/questions/35782251/python-how-to-color-the-nodes-of-a-network-according-to-their-degree 
+fig = nx.draw(G, pos, nodelist=nodes,  with_labels = True, node_color=n_color, cmap='Wistia', font_size=10,  width=5*(df['recipes']/df['recipes'].max()), node_size=500)
 plt.show()
 
 

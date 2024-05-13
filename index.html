@@ -29,20 +29,27 @@
                 <br><br>
                 I preprocessed the texts by using regex and python's string methods to extract titles and recipes for each text (stored in an array such as ['title1', 'recipe1', 'title2', 'recipe2'...]).
                 <br><br>
-                I used jieba to extract ingredients by tokenizing the texts, then taking only the nouns, then taking only nouns which contained characters from a list of words I knew to be food related. There is probably a better way to do this. My method leads to me not detecting a lot of foods because I am mostly illiterate in Chinese. (I probably should have used an English text. I'm not sure why I keep picking texts I can't read.)
+                I used jieba to extract ingredients by tokenizing the texts, then taking only the nouns, then taking only nouns which contained characters from a list of words I knew to be food related. There is probably a better way to do this. My method leads to me not detecting a lot of foods because I am mostly illiterate in Chinese and I couldn't find a plain list of food words which encompassed everything in the texts. (I probably should have used an English text. I'm not sure why I keep picking texts I can't read. I think I would still have big omission error problems in English too)
                 <br><br>
-                For the edges and edge weights, I created an array: [food 1 (from), food 2 (to), number of recipes they appear in together (edge weight)] by iterating over the list of food words I extracted to make an array with all 0 edge weights. Then, I iteracted over the relations and the recipes I extracted and added +1 to the edge weight if two foods were in a recipe together.
+                For the edges and edge weights, I created an array of arrays: [food 1 (from), food 2 (to), number of recipes they appear in together (edge weight)] by iterating over the list of food words I extracted to make an array with all 0 edge weights. Then, I iteracted over the relations and the recipes I extracted and added +1 to the edge weight if two foods were in a recipe together.
+                <br><br>
+                i used networkx to make the networks, then saves png's of the graphs to show here. Every network uses the same set of nouns: nouns related to food extracted from all three cookbooks. The overall graph has edges/relations from all the cookbooks, and each subset graph only has edges from its respective cookbook. 
             </p>
             <h3>浦江吳氏中饋錄 Ingredient Network</h3>
             <img alt="浦江吳氏中饋錄 Ingredient Network" src="浦江吳氏中饋錄-network.png">
+            <!--
+            <h3>浦江吳氏中饋錄 Ingredient Network - Zoomed In</h3>
             <img alt="浦江吳氏中饋錄 Ingredient Network Zoomed" src="浦江吳氏中饋錄-network-zoomed.png">
+            -->
             <h3>隨園食單 Ingredient Network</h3>
             <img alt="隨園食單 Ingredient Network" src="隨園食單-network.png">
+            <h3>隨園食單 Ingredient Network - Zoomed In</h3>
             <img alt="隨園食單 Ingredient Network Zoomed" src="隨園食單-network-zoomed.png">
             <h3>山家淸供 Ingredient Network</h3>
             <img alt="山家淸供 Ingredient Network" src="山家淸供-network.png">
             <h3>Overall Ingredient Network</h3>
             <img alt="Overall Ingredient Network" src="overall-network.png">
+            <h3>Overall Ingredient Network - Zoomed In</h3>
             <img alt="Overall Ingredient Network Zoomed" src="overall-network-zoomed.png">
         </div>
     </div>
