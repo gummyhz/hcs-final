@@ -26,6 +26,7 @@
                 <br><a href="https://curiosity.lib.harvard.edu/chinese-rare-books/catalog/49-990067413460203941">https://curiosity.lib.harvard.edu/chinese-rare-books/catalog/49-990067413460203941 (山家淸供)</a>
                 <br><a href="https://en.wikipedia.org/wiki/Recipes_from_the_Garden_of_Contentment">https://en.wikipedia.org/wiki/Recipes_from_the_Garden_of_Contentment (隨園食單)</a>
                 <br><a href="https://en.wikipedia.org/wiki/Wushi_Zhongkuilu">https://en.wikipedia.org/wiki/Wushi_Zhongkuilu (浦江吳氏中饋錄)</a>
+                <br><br>I chose these texts by going down Wikipedia's list of souces of Chinese culinary history and searching up titles to find texts available online. I found many more text than these three, but every cookbook has its own formatting, so to use many I anticipated it might take a while to process them. I had a folder of more texts I could add and a list of texts I might download, and zh.wikisouce.org has been pretty reliable for simply formatted cookbooks in chinese downloadable as txt files. However, running my code with just these three books took long enough that I decided not to include any more texts.
                 <br><br>
                 I preprocessed the texts by using regex and python's string methods to extract titles and recipes for each text (stored in an array such as ['title1', 'recipe1', 'title2', 'recipe2'...]).
                 <br><br>
@@ -33,20 +34,26 @@
                 <br><br>
                 For the edges and edge weights, I created an array of arrays: [food 1 (from), food 2 (to), number of recipes they appear in together (edge weight)] by iterating over the list of food words I extracted to make an array with all 0 edge weights. Then, I iteracted over the relations and the recipes I extracted and added +1 to the edge weight if two foods were in a recipe together.
                 <br><br>
-                I used networkx to make the networks, then saves png's of the graphs to show here. Every network uses the same set of nouns: nouns related to food extracted from all three cookbooks. The overall graph has edges/relations from all the cookbooks, and each subset graph only has edges from its respective cookbook. 
+                I used networkx to make the networks, then saved png's of the graphs to show here. Every network uses the same set of nouns: nouns related to food extracted from all three cookbooks. The overall graph has edges/relations from all the cookbooks, and each subset graph only has edges from its respective cookbook. 
+                <br><br>
+                In the following images of the networks, the nodes are colored by their degree (foods included more recipes with the more other foods are more red) and the width of edges is proportional to the number of recipes two foods were inclided in together. Some edges I included the number of recipes in as a label, but for larger networks which weren't zoomed in, this was less helpful and just made it harder to read.
             </p>
             <h3>浦江吳氏中饋錄 Ingredient Network</h3>
             <img alt="浦江吳氏中饋錄 Ingredient Network" src="浦江吳氏中饋錄-network.png">
-            <!--
             <h3>浦江吳氏中饋錄 Ingredient Network - Zoomed In</h3>
             <img alt="浦江吳氏中饋錄 Ingredient Network Zoomed" src="浦江吳氏中饋錄-network-zoomed.png">
-            -->
+            <img alt="浦江吳氏中饋錄 Ingredient Network Zoomed with Edge Labels" src="浦江吳氏中饋錄-network-zoomed-edgelabels.png">
+            <br>
             <h3>隨園食單 Ingredient Network</h3>
             <img alt="隨園食單 Ingredient Network" src="隨園食單-network.png">
             <h3>隨園食單 Ingredient Network - Zoomed In</h3>
             <img alt="隨園食單 Ingredient Network Zoomed" src="隨園食單-network-zoomed.png">
+            <br>
             <h3>山家淸供 Ingredient Network</h3>
             <img alt="山家淸供 Ingredient Network" src="山家淸供-network.png">
+            <h3>山家淸供 Ingredient Network - Zoomed In</h3>
+            <img alt="山家淸供 Ingredient Network Zoomed" src="山家淸供-network-zoomed.png">
+            <br>
             <h3>Overall Ingredient Network</h3>
             <img alt="Overall Ingredient Network" src="overall-network.png">
             <h3>Overall Ingredient Network - Zoomed In</h3>

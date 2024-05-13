@@ -60,7 +60,7 @@ with open('books/浦江吳氏中饋錄.txt', 'r', encoding='utf8') as rf:
 	titles = re.compile('◎([\u4e00-\u9fff]+)\n')
 	theseRecipes = re.split(titles, mwu)
 	theseRecipes = theseRecipes[1:]
-	recipes.extend(theseRecipes)
+	#recipes.extend(theseRecipes)
 	print("FIRST 3")
 	print(recipes[:3])
 	print("LAST 3")
@@ -69,7 +69,7 @@ with open('books/浦江吳氏中饋錄.txt', 'r', encoding='utf8') as rf:
 	words = pseg.cut(mwu)
 	theseNouns = [w for w in words if w.flag == 'n']
 	nouns.extend(theseNouns)
-'''
+
 # Process 'Suiyuan shidan' (隨園食單, Recipes from the Garden of Contentment)
 with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     ssd = rf.read()
@@ -79,7 +79,7 @@ with open('books/隨園食單.txt', 'r', encoding='utf8') as rf:
     # recipes and titles are separated by newlines
     theseRecipes = ssd.split('\n')
     theseRecipes = [r for r in theseRecipes if r != '']
-    recipes.extend(theseRecipes)
+    #recipes.extend(theseRecipes)
     print("FIRST 3")
     print(recipes[:3])
     print("LAST 3")
@@ -107,7 +107,7 @@ with open('books/山家清供.txt', 'r', encoding='utf8') as rf:
     words = pseg.cut(ssd)
     theseNouns = [w for w in words if w.flag == 'n']
     nouns.extend(theseNouns)
-'''
+
 
 # extract food words
 for w in nouns:
@@ -145,7 +145,7 @@ n_color = np.asarray([degrees[n] for n in nodes])
 n_color = np.log(n_color)
 print(n_color)
 edge_labels = nx.get_edge_attributes(G,'recipes')
-print(edge_labels)
+#print(edge_labels)
 w = list(nx.get_edge_attributes(G,'recipes').values())
 
 weights = [5*(x / df['recipes'].max()) for x in w]
