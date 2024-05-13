@@ -33,7 +33,7 @@
                 <br><br>
                 For the edges and edge weights, I created an array of arrays: [food 1 (from), food 2 (to), number of recipes they appear in together (edge weight)] by iterating over the list of food words I extracted to make an array with all 0 edge weights. Then, I iteracted over the relations and the recipes I extracted and added +1 to the edge weight if two foods were in a recipe together.
                 <br><br>
-                i used networkx to make the networks, then saves png's of the graphs to show here. Every network uses the same set of nouns: nouns related to food extracted from all three cookbooks. The overall graph has edges/relations from all the cookbooks, and each subset graph only has edges from its respective cookbook. 
+                I used networkx to make the networks, then saves png's of the graphs to show here. Every network uses the same set of nouns: nouns related to food extracted from all three cookbooks. The overall graph has edges/relations from all the cookbooks, and each subset graph only has edges from its respective cookbook. 
             </p>
             <h3>浦江吳氏中饋錄 Ingredient Network</h3>
             <img alt="浦江吳氏中饋錄 Ingredient Network" src="浦江吳氏中饋錄-network.png">
@@ -53,7 +53,8 @@
             <img alt="Overall Ingredient Network Zoomed" src="overall-network-zoomed.png">
         </div>
     </div>
-    <div>                        
+    <div>   
+        <p>I did a PCA on the characters in all the recipes from all the cookbooks using Word2Vec with recipes for sentences. I don't think this reveals as much about the texts as my networks, but it uses all the characters while my networks use only a subset of nouns and have various errors related to omission and segmentation.</p>                     
         <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
         <script type="text/javascript">/**
 * plotly.js v2.12.1
